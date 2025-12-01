@@ -1,0 +1,70 @@
+name: CI / Build Docker (no-push)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: 'maven'
+
+      - name: Cache Maven local repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2-
+
+      - name: Build and repackage careverify-api
+        working-directory: ${{ github.workspace }}
+        run: |
+          # Build the api module along with its dependencies in the Maven reactor so sibling modules are available
+          mvn -B -T1C -DskipTests clean package -pl careverify-api -am
+
+      - name: Upload repackaged jar (artifact for debugging)
+        uses: actions/upload-artifact@v4
+        with:
+          name: careverify-api-jar
+          path: careverify-api/target/careverify-api-1.0.0.jar
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: false
+          tags: careverify:${{ github.sha }}
+
+      - name: Save image as artifact (tar)
+        if: always()
+        run: |
+          docker save careverify:${{ github.sha }} -o /tmp/careverify_image_${{ github.sha }}.tar || true
+        env:
+          DOCKER_BUILDKIT: 1
+
+      - name: Upload Docker image tar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: careverify-image-tar
+          path: /tmp/careverify_image_${{ github.sha }}.tar
+
+      - name: Finished
+        run: echo "Built jar and image; artifacts uploaded. If build failed earlier, check the logs above for the failing step."

@@ -1,0 +1,62 @@
+[
+  {
+    "npi": "1992701239",
+    "type": "organization",
+    "expectedState": "NY",
+    "expectedSpecialty": "General Acute Care Hospital"
+  },
+  {
+    "npi": "1760403702",
+    "type": "organization",
+    "expectedState": "CA",
+    "expectedSpecialty": "Multi-Specialty Clinic"
+  },
+  {
+    "npi": "1245299865",
+    "type": "organization",
+    "expectedState": "TX",
+    "expectedSpecialty": "Skilled Nursing Facility"
+  },
+  {
+    "npi": "1023010111",
+    "type": "organization",
+    "expectedState": "FL",
+    "expectedSpecialty": "Home Health"
+  },
+  {
+    "npi": "1487636636",
+    "type": "organization",
+    "expectedState": "IL",
+    "expectedSpecialty": "Rehabilitation Hospital"
+  },
+  {
+    "npi": "1194276360",
+    "type": "individual",
+    "expectedState": "NY",
+    "expectedSpecialty": "Internal Medicine"
+  },
+  {
+    "npi": "1659352443",
+    "type": "individual",
+    "expectedState": "CA",
+    "expectedSpecialty": "Dermatology"
+  },
+  {
+    "npi": "1306849641",
+    "type": "individual",
+    "expectedState": "WA",
+    "expectedSpecialty": "Family Medicine"
+  },
+  {
+    "npi": "1558362566",
+    "type": "individual",
+    "expectedState": "TX",
+    "expectedSpecialty": "Dentistry"
+  },
+  {
+    "npi": "1790786416",
+    "type": "individual",
+    "expectedState": "PA",
+    "expectedSpecialty": "Chiropractic"
+  }
+]

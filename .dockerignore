@@ -1,0 +1,15 @@
+target
+**/target
+.idea
+*.iml
+*.log
+/.mvn
+.mvn
+.settings
+bin
+tmp
+*.pid
+*.swp
+.DS_Store
+node_modules
+
